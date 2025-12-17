@@ -1,0 +1,76 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: gateway-service
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowedHeaders:
+              - "*"
+            exposedHeaders:
+              - "*"
+            allowCredentials: true
+            maxAge: 3600
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        # Cours Service Routes - Direct URL
+        - id: cours-service-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/cours-service/**
+          filters:
+            - StripPrefix=2
+        # Inscription Service - Auth endpoints
+        - id: inscription-auth-route
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/inscriptions/auth/**
+          filters:
+            - StripPrefix=2
+        # Inscription Service - General endpoints
+        - id: inscription-service-route
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/inscriptions/**
+          filters:
+            - StripPrefix=2
+        # Statistique Service Routes
+        - id: statistique-service-route
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/stats/**
+          filters:
+            - StripPrefix=2
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

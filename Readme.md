@@ -1,54 +1,257 @@
+# 🎓 LearnHub - Plateforme d'Apprentissage en Ligne
 
-## Online Learning Platform
-Description : Plateforme de gestion des cours, professeurs et étudiants basée sur une architecture microservices. Stack : Java 17, Spring Boot 3, Spring Cloud.
+Plateforme moderne de gestion de cours en ligne avec architecture microservices, permettant aux étudiants de s'inscrire à des cours, de visionner des vidéos, et aux administrateurs de gérer l'ensemble du contenu de manière dynamique.
 
-## Technologies utilisées
+---
 
-| Technologie | Détails / Rôle |
-| :--- | :--- |
-| **Java** | JDK 17 |
-| **Spring Boot** | Framework principal (v3.x) |
-| **Spring Data REST** | Exposition d'API rapide |
-| **Spring Cloud OpenFeign**| Communication inter-services |
-| **Spring WebFlux** | Client HTTP réactif (WebClient) |
-| **Maven** | Gestion des dépendances et Build |
-| **H2 Database** | Base de données en mémoire (Dev) |
-| **API YouTube** | Source de données externe |
+## 📦 Technologies utilisées
 
-## ✅ cours-service (Port 8081) est RÉEL
-   • Pourquoi ? Il n'utilise pas de fausses données "en dur" dans le contrôleur. Il utilise Spring Data REST connecté à une vraie base de données en mémoire (H2).
-   • Preuve : Tu accèdes à tes données via des endpoints standardisés (/cours) générés automatiquement par Spring sur tes entités.
-## ✅ inscription-service (Port 8082) est RÉEL
-   • Pourquoi ? Il ne "devine" pas les infos du cours. Il effectue une vraie requête HTTP vers le cours-service via OpenFeign pour récupérer les données fraîches.
-   • Preuve : Quand tu l'interroges, il t'affiche le titre du cours qui se trouve dans l'autre service. Si tu changes le titre dans cours-service, inscription-service verra le changement.
-## ✅ statistique-service (Port 8083) est RÉEL (Le plus important !)
-   • Pourquoi ? C'est la plus grande réussite. Tu as remplacé l'API de test (jsonplaceholder) par la vraie API YouTube Data v3 de Google. Tu utilises une vraie clé API que tu as générée sur Google Cloud Console.
-   • Preuve : Quand tu lui donnes un vrai ID de vidéo YouTube, il utilise WebClient pour interroger les serveurs de Google en Californie et te ramener le nombre exact de vues et de likes en temps réel. Ce n'est plus une simulation.
-   Conclusion : Ton projet est fonctionnel et respecte des standards professionnels d'architecture microservices. Tu peux être fier de ton travail !
+| Technologie | Version | Rôle |
+| :--- | :--- | :--- |
+| **Java** | JDK 17 | Backend services |
+| **Spring Boot** | 3.2.0 | Framework principal |
+| **Spring Data JPA** | 3.2.0 | Gestion des données |
+| **Spring Data REST** | 3.2.0 | API REST automatique |
+| **Spring Cloud OpenFeign** | 4.1.0 | Communication inter-services |
+| **Spring Cloud Gateway** | 4.1.0 | API Gateway réactive |
+| **Netflix Eureka** | 4.1.0 | Service Discovery |
+| **Maven** | 3.x | Build et dépendances |
+| **PostgreSQL** | 15+ | Base de données relationnelle |
+| **React** | 18 | Frontend moderne |
+| **Vite** | 7.2.5 | Build tool rapide |
+| **React Router** | 6 | Navigation SPA |
 
+---
 
-## 🚀 Liens de Test Rapides
+## 🏗️ Architecture Microservices
 
-Copiez-collez ces liens pour tester vos services.
+| Service | Port | Description | Base de données |
+| :--- | :--- | :--- | :--- |
+| **Discovery Service** | 8761 | Eureka - Registre des services | - |
+| **Gateway Service** | 8888 | Point d'entrée unique avec CORS | - |
+| **Cours Service** | 8081 | Gestion cours, professeurs, avis | cours_db (PostgreSQL) |
+| **Inscription Service** | 8082 | Gestion étudiants et inscriptions | inscription_db (PostgreSQL) |
+| **Statistique Service** | 8083 | Statistiques et analytics | - |
+| **Frontend React** | 5173 | Interface utilisateur moderne | - |
 
-### 1. Cours Service (Backend Données)
-*   **Liste des cours (JSON) :** `http://localhost:8081/cours`
-*   **But :** Voir les données brutes stockées dans la base H2.
+---
 
-### 2. Inscription Service (Consommateur)
-*   **Cours disponibles (via Feign) :** `http://localhost:8082/inscriptions/test-cours/1`
-*   **But :** Vérifier que le service Inscription arrive bien à discuter avec le service Cours.
+## 🚀 Guide de Démarrage
 
-### 3. Statistique Service (YouTube API)
-*   **Recherche JSON (Données brutes) :**
-    `http://localhost:8083/stats/dQw4w9WgXcQ`.
-*.
-* exemple:
-* juste id=dQw4w9WgXcQ (youtube)
-## 📝 Commandes Utiles
+### Prérequis
+- **Java JDK 17** ou supérieur
+- **Maven 3.x** 
+- **Node.js 18+** et **npm**
+- **PostgreSQL 15+** avec:
+  - Utilisateur: `postgres`
+  - Mot de passe: `odoo`
+  - Bases: `cours_db` et `inscription_db` (créées automatiquement)
 
-**Lordre de démarrage recommandé :**
+### Étape 1 : Configurer PostgreSQL
 
-1. `CoursServiceApplication`
-2. `InscriptionServiceApplication`
-3. `StatistiqueServiceApplication`
+```bash
+# Vérifier que PostgreSQL est démarré
+# Les bases de données seront créées automatiquement au premier lancement
+```
+
+### Étape 2 : Lancer les Services Backend (⚠️ ORDRE IMPORTANT)
+
+**Option A - Lancement manuel (6 terminaux):**
+
+```bash
+# Terminal 1 - Discovery Service (LANCER EN PREMIER, attendre 20s)
+cd backend/discovery-service
+mvn spring-boot:run
+
+# Terminal 2 - Gateway Service (attendre 15s après Discovery)
+cd backend/gateway-service
+mvn spring-boot:run
+
+# Terminal 3 - Inscription Service (attendre 10s après Gateway)
+cd backend/inscription-service
+mvn clean package -DskipTests
+cd target
+java -jar inscription-service-0.0.1-SNAPSHOT.jar
+
+# Terminal 4 - Cours Service (attendre 10s après Inscription)
+cd backend/cours-service
+mvn spring-boot:run
+
+# Terminal 5 - Statistique Service (attendre 10s après Cours)
+cd backend/statistique-service
+mvn spring-boot:run
+
+# Terminal 6 - Frontend React (attendre 5s après Statistique)
+cd frontend
+npm install  # (première fois seulement)
+npm run dev
+```
+
+**Option B - Lancement automatique (PowerShell Windows):**
+
+```powershell
+# Copier-coller ce script dans PowerShell
+cd C:\Users\<VOTRE_USER>\Desktop\online-learning-platform
+
+# Arrêter tous les services existants
+Get-Process | Where-Object {$_.ProcessName -eq 'java' -or $_.ProcessName -eq 'node'} | Stop-Process -Force
+
+# Lancer Discovery
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd backend\discovery-service; mvn spring-boot:run" -WindowStyle Minimized
+Start-Sleep -Seconds 20
+
+# Lancer Gateway
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd backend\gateway-service; mvn spring-boot:run" -WindowStyle Minimized
+Start-Sleep -Seconds 15
+
+# Lancer Inscription
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd backend\inscription-service\target; java -jar inscription-service-0.0.1-SNAPSHOT.jar" -WindowStyle Minimized
+Start-Sleep -Seconds 10
+
+# Lancer Cours
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd backend\cours-service; mvn spring-boot:run" -WindowStyle Minimized
+Start-Sleep -Seconds 10
+
+# Lancer Statistique
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd backend\statistique-service; mvn spring-boot:run" -WindowStyle Minimized
+Start-Sleep -Seconds 10
+
+# Lancer Frontend
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd frontend; npm run dev" -WindowStyle Minimized
+```
+
+---
+
+## 🔗 Accès à l'Application
+
+| Service | URL | Description |
+| :--- | :--- | :--- |
+| **🌐 Application Web** | http://localhost:5173 | Interface utilisateur principale |
+| **📊 Eureka Dashboard** | http://localhost:8761 | Tableau de bord des services |
+| **🔌 API Gateway** | http://localhost:8888 | Point d'entrée des API |
+| **📚 API Cours** | http://localhost:8081/cours | Liste des cours (JSON) |
+| **👥 API Étudiants** | http://localhost:8082/etudiants | Liste des étudiants (JSON) |
+| **📈 API Stats** | http://localhost:8083/stats | Statistiques (JSON) |
+
+---
+
+## 👤 Comptes de Test
+
+### Compte Administrateur
+- **Email:** anouarmountade@gmail.com
+- **Mot de passe:** anouar
+- **Rôle:** ADMIN
+- **Accès:** Dashboard admin complet (gestion cours, professeurs, catégories)
+
+### Création de Comptes Étudiants
+Les étudiants doivent créer leurs comptes via le formulaire d'inscription sur l'interface web.
+
+---
+
+## ✅ Vérification du Bon Fonctionnement
+
+### Script de Vérification (PowerShell)
+
+```powershell
+# Vérifier que tous les services sont démarrés
+$services = @(@{Name="Discovery";Port=8761}, @{Name="Gateway";Port=8888}, @{Name="Inscription";Port=8082}, @{Name="Cours";Port=8081}, @{Name="Statistique";Port=8083}, @{Name="Frontend";Port=5173})
+
+foreach($s in $services) {
+    $conn = Test-NetConnection -ComputerName localhost -Port $s.Port -WarningAction SilentlyContinue -InformationLevel Quiet
+    if($conn) {
+        Write-Host "✅ $($s.Name) - Port $($s.Port) - RUNNING" -ForegroundColor Green
+    } else {
+        Write-Host "❌ $($s.Name) - Port $($s.Port) - NOT RUNNING" -ForegroundColor Red
+    }
+}
+```
+
+### Vérification PostgreSQL
+
+```bash
+# Vérifier le compte admin
+psql -U postgres -h localhost -d inscription_db -c "SELECT email, role FROM etudiant WHERE role='ADMIN';"
+
+# Résultat attendu:
+#          email           | role
+# -------------------------+-------
+#  anouarmountade@gmail.com | ADMIN
+```
+
+---
+
+## 🎯 Fonctionnalités Principales
+
+### Pour les Étudiants
+- ✅ Inscription et authentification
+- ✅ Navigation et recherche de cours
+- ✅ Consultation des détails des cours
+- ✅ Inscription aux cours
+- ✅ Lecture de vidéos de cours
+- ✅ Consultation des professeurs
+- ✅ Soumission d'avis sur les cours
+
+### Pour les Administrateurs
+- ✅ Dashboard d'administration complet
+- ✅ Gestion CRUD des cours (Créer, Lire, Modifier, Supprimer)
+- ✅ Gestion CRUD des professeurs
+- ✅ Attribution de catégories aux cours
+- ✅ Affectation de professeurs aux cours
+- ✅ Gestion dynamique depuis la base de données
+- ✅ Interface intuitive avec formulaires
+
+---
+
+## 🛠️ Technologies Détaillées
+
+### Backend (Spring Boot Microservices)
+- **Spring Data JPA:** ORM avec Hibernate pour PostgreSQL
+- **Spring Data REST:** Génération automatique d'API RESTful
+- **Spring Cloud Gateway:** Gateway réactive avec WebFlux
+- **Netflix Eureka:** Service discovery et load balancing
+- **OpenFeign:** Client HTTP déclaratif pour communication inter-services
+- **CORS:** Configuration multi-origin (ports 5173, 4400, 4200)
+
+### Frontend (React)
+- **React Router:** Navigation SPA multi-pages
+- **Context API:** Gestion d'état (Auth, Toast)
+- **Axios:** Client HTTP pour API calls
+- **CSS Modules:** Styles componentisés
+- **Vite:** Build ultra-rapide avec HMR
+
+### Base de Données (PostgreSQL)
+- **cours_db:** Cours, Professeurs, Catégories, Avis
+- **inscription_db:** Étudiants, Inscriptions, Authentification
+- **Relations:** ManyToOne (Cours→Professeur), ManyToMany (via Inscription)
+
+---
+
+## 🛑 Arrêter les Services
+
+**Option 1 - Arrêt manuel:**
+Appuyez sur `Ctrl+C` dans chaque terminal.
+
+**Option 2 - Arrêt automatique (PowerShell):**
+```powershell
+Get-Process | Where-Object {$_.ProcessName -eq 'java' -or $_.ProcessName -eq 'node'} | Stop-Process -Force
+```
+
+**Ordre recommandé:**
+1. Frontend → 2. Statistique → 3. Cours → 4. Inscription → 5. Gateway → 6. Discovery
+
+---
+
+## 📝 Notes Importantes
+
+- ✅ **PostgreSQL** requis (user: postgres, password: odoo)
+- ✅ **Bases créées automatiquement:** cours_db, inscription_db
+- ✅ **Discovery doit démarrer en premier** (attendre 20s)
+- ✅ **Compte admin:** anouarmountade@gmail.com / anouar
+- ✅ **Frontend:** http://localhost:5173
+- ✅ **CORS configuré** pour ports 5173, 4400, 4200
+
+---
+
+## 👨‍💻 Auteur
+
+**Anouar Mountade** - anouarmountade@gmail.com

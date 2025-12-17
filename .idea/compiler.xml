@@ -10,12 +10,16 @@
         <module name="cours-service" />
         <module name="statistique-service" />
         <module name="inscription-service" />
+        <module name="discovery-service" />
+        <module name="gateway-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cours-service" options="-parameters" />
+      <module name="discovery-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
       <module name="inscription-service" options="-parameters" />
       <module name="statistique-service" options="-parameters" />
     </option>

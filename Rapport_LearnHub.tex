@@ -1,0 +1,1238 @@
+\documentclass[12pt,a4paper]{report}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tocloft}
+\usepackage{titletoc}
+
+% Configuration de la page
+\geometry{margin=2.5cm}
+
+% En-têtes et pieds de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+
+% Configuration des liens
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Rapport LearnHub},
+    pdfpagemode=FullScreen,
+}
+
+% Style des chapitres
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\color{blue}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+% Style pour chapitres non numérotés (en noir)
+\titleformat{name=\chapter,numberless}[display]
+{\normalfont\huge\bfseries}
+{}{0pt}{\Huge}
+
+% Couleur des titres dans la table des matières
+\renewcommand{\cftchapfont}{\normalfont\bfseries}
+\renewcommand{\cftchappagefont}{\normalfont}
+
+\begin{document}
+
+% ========================================
+% PAGE DE GARDE
+% ========================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    % Logo LearnHub
+    \includegraphics[width=0.3\textwidth]{images/learnhub-logo.svg}
+    
+    \vspace{1.5cm}
+    
+    {\huge\bfseries Plateforme d'Apprentissage en Ligne\par}
+    \vspace{0.5cm}
+    {\LARGE\bfseries LearnHub\par}
+    
+    \vspace{2cm}
+    
+    {\Large\itshape Rapport de Projet\par}
+    
+    \vspace{1.5cm}
+    
+    {\large Architecture Microservices avec Spring Boot et React\par}
+    
+    \vfill
+    
+    % Informations sur l'auteur
+    \begin{minipage}{0.4\textwidth}
+        \begin{flushleft}
+            \textbf{Réalisé par:}\\
+            Anouar MOUNTADE\\
+           Saad KASSIMY
+        \end{flushleft}
+    \end{minipage}%
+    \begin{minipage}{0.4\textwidth}
+        \begin{flushright}
+            \textbf{Encadré par:}\\
+            Professeur \_\_\_\_\_\_\_\_\_\_\_\_
+        \end{flushright}
+    \end{minipage}
+    
+    \vfill
+    
+    % Date
+    {\large Année Universitaire 2024-2025\par}
+    {\large Décembre 2025\par}
+    
+\end{titlepage}
+
+% ========================================
+% REMERCIEMENTS
+% ========================================
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+
+Je tiens à exprimer ma profonde gratitude à toutes les personnes qui ont contribué, de près ou de loin, à la réalisation de ce projet.
+
+Mes remerciements s'adressent tout d'abord à mon encadrant, Professeur \_\_\_\_\_\_\_\_\_\_\_\_, pour son soutien, ses conseils avisés et sa disponibilité tout au long de ce travail. Son expertise et ses orientations ont été déterminantes pour mener à bien ce projet.
+
+Je remercie également l'ensemble du corps professoral pour la formation de qualité dispensée, qui m'a permis d'acquérir les compétences techniques nécessaires à la réalisation de cette plateforme d'apprentissage en ligne.
+
+Ma reconnaissance va aussi à mes camarades de promotion pour les échanges enrichissants et l'entraide qui ont caractérisé notre parcours académique.
+
+Enfin, je tiens à remercier ma famille et mes proches pour leur soutien inconditionnel, leur patience et leurs encouragements constants qui m'ont permis de mener à bien mes études et ce projet.
+
+Ce travail est le fruit d'un apprentissage continu et d'une passion pour les technologies modernes appliquées à l'éducation. J'espère que cette plateforme pourra contribuer, à sa mesure, à rendre l'apprentissage plus accessible et plus efficace.
+
+\vspace{1cm}
+
+
+\newpage
+
+% ========================================
+% TABLE DES MATIÈRES
+% ========================================
+\tableofcontents
+\newpage
+
+% ========================================
+% LISTE DES FIGURES
+% ========================================
+\listoffigures
+\newpage
+
+% ========================================
+% LISTE DES TABLEAUX
+% ========================================
+\listoftables
+\newpage
+
+% ========================================
+% INTRODUCTION GÉNÉRALE
+% ========================================
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+
+Dans un contexte où l'éducation numérique prend une place prépondérante, les plateformes d'apprentissage en ligne deviennent des outils essentiels pour démocratiser l'accès au savoir. Le projet \textbf{LearnHub} s'inscrit dans cette dynamique en proposant une solution moderne et complète pour l'enseignement à distance.
+
+LearnHub est une plateforme d'apprentissage en ligne développée avec une architecture microservices, permettant aux étudiants de consulter des cours, de s'inscrire et de visionner des vidéos éducatives. Les administrateurs disposent d'outils complets pour gérer dynamiquement l'ensemble du contenu pédagogique.
+
+La problématique centrale de ce projet réside dans la conception d'une plateforme à la fois scalable, performante, sécurisée et simple d'utilisation. Pour y répondre, nous avons adopté une architecture distribuée basée sur Spring Boot pour le backend et React pour le frontend. Cette approche garantit l'indépendance des services (cours, inscriptions, statistiques) tout en assurant leur communication fluide via des API REST.
+
+L'utilisation de technologies éprouvées comme PostgreSQL pour les données et Spring Cloud pour l'orchestration assure la fiabilité du système. La méthodologie agile adoptée a permis une évolution itérative et une adaptation rapide aux besoins identifiés.
+
+Ce rapport présente dans un premier temps la vue d'ensemble du projet et ses objectifs. Nous détaillons ensuite l'architecture globale et les technologies utilisées. Les interfaces utilisateur sont documentées dans le quatrième chapitre, avant de conclure sur les apports du projet et ses perspectives d'évolution.
+
+Ce travail démontre qu'il est possible de créer une plateforme éducative professionnelle en combinant des technologies modernes et une architecture scalable, tout en maintenant une approche centrée sur l'utilisateur.
+
+\newpage
+
+% ========================================
+% CHAPITRE 1: VUE D'ENSEMBLE
+% ========================================
+\chapter{Vue d'Ensemble}
+
+\section{Description du Projet}
+
+LearnHub est une plateforme d'apprentissage en ligne moderne développée avec une architecture microservices. Le système permet aux étudiants de consulter et de s'inscrire à des cours en ligne, de visionner des vidéos éducatives, et d'interagir avec les professeurs. Les administrateurs disposent d'un tableau de bord complet pour gérer l'ensemble du contenu de la plateforme de manière dynamique.
+
+La plateforme est conçue pour offrir une expérience utilisateur fluide et intuitive, tout en garantissant une architecture scalable et maintenable grâce à l'utilisation de microservices indépendants communiquant via des API REST.
+
+\section{Objectifs}
+
+Les principaux objectifs de ce projet sont :
+
+\begin{itemize}
+    \item \textbf{Objectif pédagogique :} Créer une plateforme accessible permettant aux étudiants d'accéder à des cours de qualité en ligne
+    \item \textbf{Objectif technique :} Implémenter une architecture microservices moderne et scalable
+    \item \textbf{Objectif de gestion :} Fournir aux administrateurs des outils complets de gestion de contenu
+    \item \textbf{Objectif d'expérience utilisateur :} Offrir une interface intuitive et réactive pour tous les utilisateurs
+    \item \textbf{Objectif de sécurité :} Assurer l'authentification et l'autorisation des utilisateurs
+    \item \textbf{Objectif de performance :} Garantir des temps de réponse rapides grâce à la séparation des services
+\end{itemize}
+
+\section{Caractéristiques Principales}
+
+\subsection{Pour les Étudiants}
+\begin{itemize}
+    \item Inscription et authentification sécurisées
+    \item Navigation et recherche de cours par catégorie
+    \item Consultation détaillée des cours avec description et vidéo
+    \item Inscription aux cours souhaités
+    \item Lecture de vidéos de cours directement sur la plateforme
+    \item Consultation des profils des professeurs
+    \item Soumission d'avis et de notes sur les cours
+    \item Tableau de bord personnel pour suivre les inscriptions
+\end{itemize}
+
+\subsection{Pour les Administrateurs}
+\begin{itemize}
+    \item Dashboard d'administration complet et intuitif
+    \item Gestion CRUD complète des cours (Créer, Lire, Modifier, Supprimer)
+    \item Gestion CRUD des professeurs
+    \item Attribution de catégories aux cours (6 catégories disponibles)
+    \item Affectation de professeurs responsables aux cours
+    \item Gestion dynamique entièrement basée sur la base de données
+    \item Visualisation en temps réel des inscriptions et statistiques
+\end{itemize}
+
+% ========================================
+% CHAPITRE 2: ARCHITECTURE GLOBALE
+% ========================================
+\chapter{Architecture Globale}
+
+\section{Diagramme de Classe}
+
+Le système est organisé en plusieurs entités principales interconnectées stockées dans deux bases de données PostgreSQL distinctes.
+
+\subsection{Base de données cours\_db}
+
+\textbf{Entité Cours :}
+\begin{itemize}
+    \item Attributs : id, titre, description, durée, image, videoUrl, catégorie
+    \item Relation : ManyToOne vers Professeur (un cours est enseigné par un professeur)
+\end{itemize}
+
+\textbf{Entité Professeur :}
+\begin{itemize}
+    \item Attributs : id, nom, prénom, spécialité, email, image
+    \item Relation : OneToMany vers Cours (un professeur peut enseigner plusieurs cours)
+\end{itemize}
+
+\textbf{Entité Avis :}
+\begin{itemize}
+    \item Attributs : id, commentaire, note, etudiantNom
+    \item Relation : ManyToOne vers Cours
+\end{itemize}
+
+\subsection{Base de données inscription\_db}
+
+\textbf{Entité Etudiant :}
+\begin{itemize}
+    \item Attributs : id, nom, prénom, email, password, role (ADMIN/USER)
+    \item Relation : OneToMany vers Inscription
+\end{itemize}
+
+\textbf{Entité Inscription :}
+\begin{itemize}
+    \item Attributs : id, coursId (référence externe), dateInscription
+    \item Relations : ManyToOne vers Etudiant
+\end{itemize}
+
+\vspace{1cm}
+\textbf{Note :} Insérez ici votre diagramme de classe UML généré avec un outil comme PlantUML ou draw.io
+
+% Placeholder pour le diagramme de classe
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering \vspace{10cm} Insérer le diagramme de classe UML ici}}
+    \caption{Diagramme de classe du système LearnHub}
+    \label{fig:class-diagram}
+\end{figure}
+
+\newpage
+
+\section{Diagramme d'Architecture}
+
+L'architecture du système LearnHub repose sur le pattern microservices avec les composants suivants :
+
+\subsection{Composants Principaux}
+
+\begin{enumerate}
+    \item \textbf{Discovery Service (Eureka Server) - Port 8761}
+    \begin{itemize}
+        \item Rôle : Service de découverte et registre des microservices
+        \item Technologie : Netflix Eureka
+        \item Permet l'enregistrement automatique de tous les services
+        \item Facilite la communication inter-services sans configuration hard-codée
+    \end{itemize}
+    
+    \item \textbf{Gateway Service - Port 8888}
+    \begin{itemize}
+        \item Rôle : Point d'entrée unique pour toutes les requêtes
+        \item Technologie : Spring Cloud Gateway (Reactive)
+        \item Routage intelligent vers les microservices appropriés
+        \item Gestion CORS pour les applications frontend
+        \item Load balancing automatique
+    \end{itemize}
+    
+    \item \textbf{Cours Service - Port 8081}
+    \begin{itemize}
+        \item Rôle : Gestion des cours et des professeurs
+        \item Base de données : cours\_db (PostgreSQL)
+        \item API REST générée avec Spring Data REST
+        \item Endpoints : /cours, /professeurs, /avis
+    \end{itemize}
+    
+    \item \textbf{Inscription Service - Port 8082}
+    \begin{itemize}
+        \item Rôle : Gestion des étudiants et inscriptions
+        \item Base de données : inscription\_db (PostgreSQL)
+        \item Authentification et gestion des utilisateurs
+        \item Communication avec cours-service via OpenFeign
+    \end{itemize}
+    
+    \item \textbf{Statistique Service - Port 8083}
+    \begin{itemize}
+        \item Rôle : Collecte et analyse des statistiques
+        \item Génération de rapports et analytics
+        \item Agrégation de données multi-services
+    \end{itemize}
+    
+    \item \textbf{Frontend React - Port 5173}
+    \begin{itemize}
+        \item Rôle : Interface utilisateur moderne et réactive
+        \item Technologie : React 18 avec Vite
+        \item Communication avec backend via API Gateway
+        \item Gestion d'état avec Context API
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Flux de Communication}
+
+\begin{enumerate}
+    \item Le client (navigateur) envoie des requêtes au Gateway (port 8888)
+    \item Le Gateway route les requêtes vers le service approprié
+    \item Les services communiquent entre eux via Feign Client
+    \item Tous les services s'enregistrent auprès du Discovery Service
+    \item Les données sont persistées dans PostgreSQL
+\end{enumerate}
+
+\vspace{1cm}
+\textbf{Note :} Insérez ici votre diagramme d'architecture montrant les interactions entre services
+
+% Placeholder pour le diagramme d'architecture
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering \vspace{12cm} Insérer le diagramme d'architecture microservices ici}}
+    \caption{Architecture microservices de LearnHub}
+    \label{fig:architecture}
+\end{figure}
+
+\newpage
+
+% ========================================
+% CHAPITRE 3: TECHNOLOGIES UTILISÉES
+% ========================================
+\chapter{Technologies utilisées}
+
+\section{Backend - Spring Boot Ecosystem}
+
+\subsection{Framework Principal}
+\begin{itemize}
+    \item \textbf{Spring Boot 3.2.0} : Framework principal pour le développement des microservices
+    \item \textbf{Java 17} : Langage de programmation avec support LTS (Long Term Support)
+    \item \textbf{Maven 3.x} : Outil de gestion de dépendances et de build
+\end{itemize}
+
+\subsection{Persistance et Données}
+\begin{itemize}
+    \item \textbf{Spring Data JPA} : Couche d'abstraction pour l'accès aux données
+    \item \textbf{Hibernate} : ORM (Object-Relational Mapping) pour PostgreSQL
+    \item \textbf{Spring Data REST} : Génération automatique d'API RESTful HATEOAS
+    \item \textbf{PostgreSQL 15} : Système de gestion de base de données relationnelle
+\end{itemize}
+
+\subsection{Microservices et Communication}
+\begin{itemize}
+    \item \textbf{Spring Cloud Gateway 4.1.0} : API Gateway réactive basée sur WebFlux
+    \item \textbf{Netflix Eureka 4.1.0} : Service Discovery et registre de services
+    \item \textbf{OpenFeign 4.1.0} : Client HTTP déclaratif pour communication inter-services
+    \item \textbf{Spring WebFlux} : Programmation réactive pour le Gateway
+\end{itemize}
+
+\subsection{Sécurité}
+\begin{itemize}
+    \item \textbf{Spring Security} : Framework de sécurité pour authentification et autorisation
+    \item \textbf{JWT (JSON Web Tokens)} : Tokens sécurisés pour l'authentification stateless
+    \item \textbf{CORS} : Configuration pour autoriser les requêtes cross-origin
+\end{itemize}
+
+\section{Frontend - React Ecosystem}
+
+\subsection{Framework et Outils}
+\begin{itemize}
+    \item \textbf{React 18} : Bibliothèque JavaScript pour interfaces utilisateur modernes
+    \item \textbf{Vite 7.2.5} : Build tool ultra-rapide avec Hot Module Replacement (HMR)
+    \item \textbf{React Router DOM v6} : Navigation déclarative pour Single Page Application
+    \item \textbf{Context API} : Gestion d'état globale (Auth, Toast notifications)
+\end{itemize}
+
+\subsection{Communication et Styling}
+\begin{itemize}
+    \item \textbf{Fetch API} : Client HTTP natif JavaScript pour les appels API
+    \item \textbf{CSS3} : Styles personnalisés avec modules CSS
+    \item \textbf{JavaScript ES6+} : Syntaxe moderne avec async/await
+\end{itemize}
+
+\section{Base de Données}
+
+\subsection{PostgreSQL - Architecture Multi-Base}
+\begin{itemize}
+    \item \textbf{cours\_db} : Stockage des cours, professeurs, catégories et avis
+    \item \textbf{inscription\_db} : Gestion des étudiants, inscriptions et authentification
+    \item \textbf{Relations} : ManyToOne (Cours→Professeur), ManyToMany via table Inscription
+\end{itemize}
+
+\section{Outils de Développement}
+
+\begin{itemize}
+    \item \textbf{Visual Studio Code} : IDE principal pour développement frontend
+    \item \textbf{IntelliJ IDEA} : IDE recommandé pour développement Java/Spring Boot
+    \item \textbf{Postman} : Test et documentation des API REST
+    \item \textbf{Git} : Contrôle de version
+    \item \textbf{pgAdmin} : Administration PostgreSQL
+\end{itemize}
+
+\section{Tableau Récapitulatif}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Composant} & \textbf{Technologie} & \textbf{Version} \\ \hline
+Backend Framework & Spring Boot & 3.2.0 \\ \hline
+Langage Backend & Java & 17 \\ \hline
+API Gateway & Spring Cloud Gateway & 4.1.0 \\ \hline
+Service Discovery & Netflix Eureka & 4.1.0 \\ \hline
+Communication & OpenFeign & 4.1.0 \\ \hline
+Base de Données & PostgreSQL & 15+ \\ \hline
+ORM & Hibernate & 6.3.1 \\ \hline
+Frontend Framework & React & 18 \\ \hline
+Build Tool Frontend & Vite & 7.2.5 \\ \hline
+Routing & React Router & 6 \\ \hline
+HTTP Client & Fetch API & Native \\ \hline
+Build Tool Backend & Maven & 3.x \\ \hline
+\end{tabular}
+\caption{Technologies et versions utilisées}
+\end{table}
+
+\newpage
+
+\section{Logos des Technologies}
+
+Cette section présente les logos et les descriptions des principales technologies utilisées dans le projet LearnHub.
+
+\subsection{Technologies Backend}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.22\textwidth}
+        \centering
+        \includegraphics[width=3cm]{images/springboot.png}
+        \\[5pt]
+        \small Spring Boot
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.22\textwidth}
+        \centering
+        \includegraphics[width=3cm]{images/java.png}
+        \\[5pt]
+        \small Java 17
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.22\textwidth}
+        \centering
+        \includegraphics[width=3cm]{images/maven.png}
+        \\[5pt]
+        \small Maven
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.22\textwidth}
+        \centering
+        \includegraphics[width=3cm]{images/hebirnate.png}
+        \\[5pt]
+        \small Hibernate
+    \end{minipage}
+    \caption{Technologies Backend - Spring Boot, Java 17, Maven, Hibernate}
+    \label{fig:backend-logos}
+\end{figure}
+
+\textbf{Spring Boot 3.2.0 :} Framework Java qui simplifie le développement d'applications enterprise. Il fournit une configuration automatique, des serveurs embarqués et facilite la création de microservices robustes et scalables.
+
+\textbf{Java 17 :} Langage de programmation orienté objet avec support LTS (Long Term Support). Version moderne offrant des performances optimisées, des fonctionnalités comme les records et les pattern matching, garantissant la stabilité et la sécurité.
+
+\textbf{Maven 3.x :} Outil de gestion de projet et de dépendances. Il automatise le build, gère les bibliothèques tierces via le fichier pom.xml, et assure la cohérence des builds sur différents environnements.
+
+\textbf{Hibernate :} Framework ORM (Object-Relational Mapping) qui permet de mapper les objets Java aux tables de bases de données. Il simplifie les opérations CRUD et gère automatiquement les relations entre entités via JPA.
+
+\subsection{Technologies Frontend}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=4cm]{images/react.png}
+        \\[5pt]
+        \small React 18
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=4cm]{images/vite.png}
+        \\[5pt]
+        \small Vite
+    \end{minipage}
+    \caption{Technologies Frontend - React 18 et Vite}
+    \label{fig:frontend-logos}
+\end{figure}
+
+\textbf{React 18 :} Bibliothèque JavaScript développée par Meta pour construire des interfaces utilisateur interactives. Son architecture basée sur les composants réutilisables, le Virtual DOM et les hooks (useState, useEffect, useContext) permet de créer des applications web modernes et performantes.
+
+\textbf{Vite 7.2.5 :} Build tool moderne et ultra-rapide pour le développement frontend. Il offre un démarrage instantané, un Hot Module Replacement (HMR) en temps réel, et optimise automatiquement le code pour la production avec un bundling efficace.
+
+\subsection{Base de Données et Outils}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=4cm]{images/postfresql.png}
+        \\[5pt]
+        \small PostgreSQL
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=4cm]{images/git.png}
+        \\[5pt]
+        \small Git
+    \end{minipage}
+    \caption{Base de Données et Outils - PostgreSQL et Git}
+    \label{fig:database-logos}
+\end{figure}
+
+\textbf{PostgreSQL 15 :} Système de gestion de base de données relationnelle open-source puissant et fiable. Il supporte les transactions ACID, les relations complexes, les index avancés et offre d'excellentes performances pour les applications critiques. Dans ce projet, deux bases distinctes (cours\_db et inscription\_db) sont utilisées pour séparer les domaines métier.
+
+\textbf{Git :} Système de contrôle de version distribué qui permet de suivre l'évolution du code source. Il facilite la collaboration entre développeurs, la gestion des branches, et assure la traçabilité complète de toutes les modifications du projet.
+
+\vspace{1cm}
+
+\textbf{Note :} Tous les logos proviennent des sources officielles et sont utilisés à des fins éducatives et de documentation du projet.
+
+% ========================================
+% CHAPITRE 4: INTERFACES
+% ========================================
+\chapter{Interfaces Utilisateur}
+
+Ce chapitre présente l'ensemble des interfaces utilisateur de la plateforme LearnHub. Chaque page a été conçue avec une attention particulière à l'expérience utilisateur et à la facilité de navigation.
+
+\section{Page d'Accueil (Home.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/Home.jsx}
+
+La page d'accueil constitue le point d'entrée principal de la plateforme. Elle présente une vue d'ensemble attractive et informative de LearnHub.
+
+\subsection{Éléments principaux}
+
+\begin{itemize}
+    \item \textbf{Section Hero :} Bannière d'accueil avec titre principal "Bienvenue sur LearnHub", sous-titre descriptif et image illustrative du e-learning
+    \item \textbf{Message de bienvenue :} Description de la plateforme comme solution d'apprentissage en ligne moderne
+    \item \textbf{Call-to-Action :} Boutons d'action encourageant l'inscription et la découverte des cours
+    \item \textbf{Section Statistiques :} Affichage des métriques clés de la plateforme (nombre de cours, étudiants inscrits, professeurs experts)
+    \item \textbf{Barre de navigation :} Menu de navigation avec liens vers Accueil, Cours, Professeurs, Connexion/Inscription
+\end{itemize}
+
+\subsection{Fonctionnalités}
+
+\begin{itemize}
+    \item Navigation fluide vers les différentes sections de la plateforme
+    \item Design responsive adapté aux écrans mobiles, tablettes et ordinateurs
+    \item Animations CSS pour améliorer l'engagement utilisateur
+    \item Intégration des statistiques en temps réel depuis l'API statistique
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran de la page d'accueil}}
+    \caption{Page d'accueil de LearnHub}
+    \label{fig:home}
+\end{figure}
+
+\newpage
+
+\section{Page de Connexion (Login.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/Login.jsx}
+
+Interface d'authentification sécurisée permettant aux utilisateurs (étudiants et administrateurs) d'accéder à leurs comptes personnels.
+
+\subsection{Champs du formulaire}
+
+\begin{itemize}
+    \item \textbf{Email :} Champ texte avec validation de format email
+    \item \textbf{Mot de passe :} Champ sécurisé avec masquage des caractères
+    \item \textbf{Bouton Connexion :} Déclenchement de l'authentification
+\end{itemize}
+
+\subsection{Validation et sécurité}
+
+\begin{itemize}
+    \item Validation côté client avant envoi au serveur
+    \item Messages d'erreur clairs et explicites (email invalide, mot de passe incorrect, compte inexistant)
+    \item Gestion des tokens JWT pour maintenir la session utilisateur
+    \item Utilisation de AuthContext pour centraliser l'état d'authentification
+    \item Protection CSRF et requêtes sécurisées via HTTPS
+\end{itemize}
+
+\subsection{Navigation et redirection}
+
+\begin{itemize}
+    \item Lien vers la page d'inscription pour les nouveaux utilisateurs
+    \item Redirection automatique selon le rôle après connexion :
+    \begin{itemize}
+        \item Administrateur (ADMIN) → Dashboard Administrateur
+        \item Étudiant (USER) → Dashboard Étudiant
+    \end{itemize}
+    \item Notifications toast pour les succès et erreurs de connexion
+\end{itemize}
+
+\textbf{Compte administrateur :}
+\begin{itemize}
+    \item Email : anouarmountade@gmail.com
+    \item Mot de passe : anouar
+    \item Rôle : ADMIN
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran de la page de connexion}}
+    \caption{Page de connexion}
+    \label{fig:login}
+\end{figure}
+
+\newpage
+
+\section{Page d'Inscription (Signup.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/Signup.jsx}
+
+Formulaire d'enregistrement permettant aux nouveaux visiteurs de créer un compte étudiant sur la plateforme.
+
+\subsection{Champs du formulaire}
+
+\begin{itemize}
+    \item \textbf{Nom :} Nom de famille de l'étudiant (obligatoire)
+    \item \textbf{Prénom :} Prénom de l'étudiant (obligatoire)
+    \item \textbf{Email :} Adresse email unique (validation format + unicité)
+    \item \textbf{Mot de passe :} Mot de passe sécurisé (minimum 6 caractères recommandé)
+\end{itemize}
+
+\subsection{Processus d'inscription}
+
+\begin{enumerate}
+    \item Saisie des informations personnelles par l'utilisateur
+    \item Validation en temps réel des champs (format email, champs vides)
+    \item Vérification de l'unicité de l'email dans la base de données
+    \item Création du compte avec rôle automatique USER (étudiant)
+    \item Hashage sécurisé du mot de passe côté backend
+    \item Confirmation de création via notification toast
+    \item Redirection automatique vers la page de connexion
+\end{enumerate}
+
+\subsection{Règles de validation}
+
+\begin{itemize}
+    \item Tous les champs sont obligatoires
+    \item Email doit respecter le format standard (example@domain.com)
+    \item Email ne doit pas déjà exister dans le système
+    \item Nom et prénom doivent contenir uniquement des lettres
+    \item Mot de passe doit avoir une longueur minimale pour la sécurité
+\end{itemize}
+
+\subsection{Gestion des erreurs}
+
+\begin{itemize}
+    \item Message si l'email existe déjà
+    \item Indication des champs invalides ou manquants
+    \item Notification des erreurs serveur avec possibilité de réessayer
+    \item Lien vers la page de connexion pour les utilisateurs déjà inscrits
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran de la page d'inscription}}
+    \caption{Page d'inscription}
+    \label{fig:signup}
+\end{figure}
+
+\newpage
+
+\section{Liste des Cours (Courses.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/Courses.jsx}
+
+Page centrale présentant le catalogue complet des cours disponibles sur la plateforme sous forme de grille interactive.
+
+\subsection{Affichage des cours}
+
+\begin{itemize}
+    \item \textbf{Grille responsive :} Layout adaptatif (3 colonnes sur desktop, 2 sur tablette, 1 sur mobile)
+    \item \textbf{Cartes cours :} Chaque cours est représenté par une carte visuelle avec :
+    \begin{itemize}
+        \item Image de prévisualisation du cours
+        \item Titre du cours
+        \item Description courte
+        \item Catégorie (badge coloré)
+        \item Durée en heures
+        \item Nom du professeur responsable
+        \item Note moyenne (système de notation sur 5 étoiles)
+        \item Bouton "Voir détails"
+    \end{itemize}
+\end{itemize}
+
+\subsection{Catégories de cours}
+
+Les cours sont organisés selon 6 catégories principales :
+\begin{enumerate}
+    \item \textbf{Développement Web :} HTML, CSS, JavaScript, React, Spring Boot
+    \item \textbf{Data Science :} Python, statistiques, machine learning, visualisation
+    \item \textbf{Intelligence Artificielle :} Deep Learning, NLP, Computer Vision
+    \item \textbf{Mobile Development :} Android, iOS, React Native, Flutter
+    \item \textbf{DevOps :} Docker, Kubernetes, CI/CD, Infrastructure as Code
+    \item \textbf{Cybersécurité :} Ethical Hacking, sécurité réseau, cryptographie
+\end{enumerate}
+
+\subsection{Interactions utilisateur}
+
+\begin{itemize}
+    \item Survol des cartes avec effet d'élévation (hover effect)
+    \item Clic sur "Voir détails" → Navigation vers la page détails du cours
+    \item Chargement dynamique depuis l'API cours-service
+    \item Affichage de loader pendant le chargement des données
+    \item Gestion des états vides (aucun cours disponible)
+\end{itemize}
+
+\subsection{Fonctionnalités techniques}
+
+\begin{itemize}
+    \item Récupération des cours via API REST (/api/cours)
+    \item Affichage du nom du professeur via relation professeurId
+    \item Calcul automatique de la note moyenne depuis les avis
+    \item Optimisation des images avec lazy loading
+    \item Mise en cache des données pour améliorer les performances
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran de la liste des cours}}
+    \caption{Page liste des cours}
+    \label{fig:courses}
+\end{figure}
+
+\newpage
+
+\section{Détails d'un Cours (CourseDetails.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/CourseDetails.jsx}
+
+Page détaillée présentant toutes les informations d'un cours spécifique avec possibilité d'inscription et de consultation des avis.
+
+\subsection{Informations du cours}
+
+\begin{itemize}
+    \item \textbf{En-tête :} Titre du cours, catégorie, durée, note moyenne
+    \item \textbf{Vidéo de présentation :} Player YouTube intégré avec preview cliquable
+    \item \textbf{Description complète :} Contenu détaillé du cours, objectifs pédagogiques
+    \item \textbf{Informations professeur :}
+    \begin{itemize}
+        \item Photo du professeur
+        \item Nom complet
+        \item Spécialité
+        \item Email de contact
+    \end{itemize}
+\end{itemize}
+
+\subsection{Système d'inscription}
+
+\begin{itemize}
+    \item Vérification automatique si l'étudiant est déjà inscrit
+    \item Bouton "S'inscrire au cours" (visible uniquement si non inscrit)
+    \item Vérification de l'authentification avant inscription
+    \item Redirection vers login si utilisateur non connecté
+    \item Confirmation d'inscription avec notification toast
+    \item Mise à jour instantanée de l'interface après inscription
+\end{itemize}
+
+\subsection{Section avis et notes}
+
+\begin{itemize}
+    \item \textbf{Liste des avis :} Affichage de tous les avis avec :
+    \begin{itemize}
+        \item Nom de l'étudiant
+        \item Note sur 5 étoiles
+        \item Commentaire textuel
+        \item Date de publication
+    \end{itemize}
+    \item \textbf{Formulaire d'ajout d'avis :} Disponible uniquement pour les étudiants inscrits
+    \begin{itemize}
+        \item Sélection de la note (1 à 5 étoiles)
+        \item Zone de texte pour le commentaire
+        \item Validation avant soumission
+        \item Ajout en temps réel dans la liste
+    \end{itemize}
+    \item \textbf{Calcul de la note moyenne :} Mise à jour automatique avec chaque nouvel avis
+\end{itemize}
+
+\subsection{Fonctionnalités vidéo}
+
+\begin{itemize}
+    \item Lecture de la vidéo de présentation directement sur la page
+    \item Bouton "Lire vidéo" au centre du player
+    \item Vérification de l'authentification avant lecture
+    \item Vérification de l'inscription au cours
+    \item Redirection vers CoursePlayer pour la lecture complète
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran des détails du cours}}
+    \caption{Page détails d'un cours}
+    \label{fig:course-details}
+\end{figure}
+
+\newpage
+
+\section{Lecteur de Cours (CoursePlayer.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/CoursePlayer.jsx}
+
+Interface dédiée à la lecture des vidéos de cours avec expérience immersive plein écran.
+
+\subsection{Fonctionnalités principales}
+
+\begin{itemize}
+    \item \textbf{Player vidéo plein écran :} YouTube iframe intégré avec contrôles complets
+    \item \textbf{Informations contextuelles :}
+    \begin{itemize}
+        \item Titre du cours en cours de visionnage
+        \item Nom du professeur
+        \item Durée totale du cours
+    \end{itemize}
+    \item \textbf{Contrôles de lecture :} Play/Pause, volume, avance/recul, plein écran, qualité vidéo
+    \item \textbf{Protection d'accès :} Vérification de l'inscription avant accès à la vidéo
+\end{itemize}
+
+\subsection{Sécurité et contrôle d'accès}
+
+\begin{itemize}
+    \item Vérification que l'utilisateur est authentifié
+    \item Contrôle que l'utilisateur est inscrit au cours
+    \item Redirection automatique si accès non autorisé
+    \item Protection de l'URL vidéo contre les accès directs
+\end{itemize}
+
+\subsection{Expérience utilisateur}
+
+\begin{itemize}
+    \item Interface épurée sans distractions
+    \item Focus total sur le contenu vidéo
+    \item Bouton retour vers les détails du cours
+    \item Sauvegarde automatique de la progression (fonctionnalité future)
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran du lecteur de cours}}
+    \caption{Lecteur de vidéo de cours}
+    \label{fig:course-player}
+\end{figure}
+
+\newpage
+
+\section{Liste des Professeurs (Professors.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/Professors.jsx}
+
+Page présentant l'équipe pédagogique de la plateforme avec profils détaillés de chaque professeur.
+
+\subsection{Affichage des professeurs}
+
+\begin{itemize}
+    \item \textbf{Grille de cartes professeurs :} Layout responsive 3 colonnes (desktop) / 2 (tablette) / 1 (mobile)
+    \item \textbf{Informations par carte :}
+    \begin{itemize}
+        \item Photo professionnelle du professeur
+        \item Nom complet (support des noms arabes/marocains)
+        \item Spécialité principale
+        \item Adresse email de contact
+        \item Nombre de cours enseignés
+    \end{itemize}
+\end{itemize}
+
+\subsection{Professeurs actuels}
+
+\begin{enumerate}
+    \item \textbf{hassan Amrani}
+    \begin{itemize}
+        \item Spécialité : Intelligence Artificielle et Machine Learning
+        \item Email : hassan.amrani@learnhub.ma
+        \item Cours : Deep Learning, Computer Vision
+    \end{itemize}
+    
+    \item \textbf{Fatima Bennani}
+    \begin{itemize}
+        \item Spécialité : Développement Web Full Stack
+        \item Email : fatima.bennani@learnhub.ma
+        \item Cours : React Avancé, Spring Boot Microservices
+    \end{itemize}
+    
+    \item \textbf{Karim El Mansouri}
+    \begin{itemize}
+        \item Spécialité : Data Science et Analytics
+        \item Email : karim.elmansouri@learnhub.ma
+        \item Cours : Python Data Science, Machine Learning
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Design et ergonomie}
+
+\begin{itemize}
+    \item Design professionnel et épuré
+    \item Support des noms arabes avec word-wrap automatique
+    \item Effet hover avec élévation des cartes
+    \item Chargement dynamique depuis la base de données
+    \item Images optimisées avec fallback en cas d'erreur
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran de la liste des professeurs}}
+    \caption{Page des professeurs}
+    \label{fig:professors}
+\end{figure}
+
+\newpage
+
+\section{Dashboard Étudiant (StudentDashboard.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/StudentDashboard.jsx}
+
+Tableau de bord personnel de l'étudiant permettant de suivre ses cours et sa progression.
+
+\subsection{En-tête personnalisé}
+
+\begin{itemize}
+    \item Message de bienvenue avec nom de l'étudiant : "Bienvenue, [Prénom] [Nom] !"
+    \item Indication du rôle : Étudiant
+    \item Bouton de déconnexion
+\end{itemize}
+
+\subsection{Section "Mes Cours"}
+
+\begin{itemize}
+    \item \textbf{Liste des cours inscrits :} Affichage de tous les cours auxquels l'étudiant est inscrit
+    \item \textbf{Informations par cours :}
+    \begin{itemize}
+        \item Titre du cours
+        \item Professeur responsable
+        \item Catégorie
+        \item Durée totale
+        \item Date d'inscription
+        \item Bouton "Accéder au cours" → Navigation vers CoursePlayer
+    \end{itemize}
+    \item \textbf{État vide :} Message encourageant à découvrir le catalogue si aucune inscription
+\end{itemize}
+
+\subsection{Statistiques personnelles}
+
+\begin{itemize}
+    \item Nombre total de cours suivis
+    \item Heures d'apprentissage cumulées
+    \item Progression moyenne (fonctionnalité future)
+    \item Badges et récompenses obtenus (fonctionnalité future)
+\end{itemize}
+
+\subsection{Fonctionnalités}
+
+\begin{itemize}
+    \item Récupération des inscriptions via API inscription-service
+    \item Enrichissement avec détails des cours via cours-service
+    \item Filtrage et tri des cours (par date, catégorie, progression)
+    \item Accès rapide aux cours en un clic
+    \item Actualisation automatique lors de nouvelles inscriptions
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran du dashboard étudiant}}
+    \caption{Dashboard étudiant}
+    \label{fig:student-dashboard}
+\end{figure}
+
+\newpage
+
+\section{Dashboard Administrateur (AdminDashboard.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/pages/AdminDashboard.jsx}
+
+Interface d'administration complète permettant la gestion centralisée de tous les contenus de la plateforme.
+
+\subsection{En-tête administrateur}
+
+\begin{itemize}
+    \item Message de bienvenue : "Bienvenue, Administrateur !"
+    \item Indication du rôle : ADMIN
+    \item Navigation par onglets : Gestion des Cours / Gestion des Professeurs
+    \item Bouton de déconnexion sécurisé
+\end{itemize}
+
+\subsection{Gestion des Cours}
+
+\textbf{Formulaire d'ajout/modification de cours :}
+\begin{itemize}
+    \item \textbf{Titre :} Nom du cours (obligatoire)
+    \item \textbf{Description :} Contenu détaillé du cours (textarea)
+    \item \textbf{Durée :} Nombre d'heures (format numérique)
+    \item \textbf{Image URL :} Lien vers l'image de prévisualisation
+    \item \textbf{Vidéo URL :} Lien YouTube de la vidéo du cours
+    \item \textbf{Catégorie :} Sélection parmi 6 catégories via dropdown :
+    \begin{enumerate}
+        \item Développement Web
+        \item Data Science
+        \item Intelligence Artificielle
+        \item Mobile Development
+        \item DevOps
+        \item Cybersécurité
+    \end{enumerate}
+    \item \textbf{Professeur :} Sélection du professeur responsable (dropdown dynamique)
+    \item \textbf{Boutons d'action :}
+    \begin{itemize}
+        \item "Ajouter Cours" pour créer un nouveau cours
+        \item "Modifier" pour mettre à jour un cours existant
+        \item "Annuler" pour réinitialiser le formulaire
+    \end{itemize}
+\end{itemize}
+
+\textbf{Tableau des cours :}
+\begin{itemize}
+    \item Affichage de tous les cours dans un tableau responsive
+    \item Colonnes : ID, Titre, Catégorie, Professeur, Durée, Actions
+    \item Actions par ligne :
+    \begin{itemize}
+        \item Bouton "Modifier" : Charge les données du cours dans le formulaire
+        \item Bouton "Supprimer" : Suppression avec confirmation
+    \end{itemize}
+    \item Tri et filtrage des colonnes
+    \item Pagination automatique si nombreux cours
+\end{itemize}
+
+\textbf{Opérations CRUD :}
+\begin{itemize}
+    \item \textbf{Create :} Ajout de nouveau cours via formulaire → POST /api/cours
+    \item \textbf{Read :} Récupération de tous les cours → GET /api/cours
+    \item \textbf{Update :} Modification d'un cours existant → PUT /api/cours/\{id\}
+    \item \textbf{Delete :} Suppression d'un cours → DELETE /api/cours/\{id\}
+\end{itemize}
+
+\subsection{Gestion des Professeurs}
+
+\textbf{Formulaire d'ajout/modification de professeur :}
+\begin{itemize}
+    \item \textbf{Nom :} Nom de famille du professeur
+    \item \textbf{Prénom :} Prénom du professeur
+    \item \textbf{Spécialité :} Domaine d'expertise principal
+    \item \textbf{Email :} Adresse email professionnelle
+    \item \textbf{Image URL :} Lien vers la photo du professeur
+    \item \textbf{Boutons d'action :}
+    \begin{itemize}
+        \item "Ajouter Professeur" pour créer un nouveau profil
+        \item "Modifier" pour mettre à jour un profil existant
+        \item "Annuler" pour réinitialiser le formulaire
+    \end{itemize}
+\end{itemize}
+
+\textbf{Tableau des professeurs :}
+\begin{itemize}
+    \item Affichage de tous les professeurs
+    \item Colonnes : ID, Nom Complet, Spécialité, Email, Actions
+    \item Actions par ligne :
+    \begin{itemize}
+        \item Bouton "Modifier" : Pré-remplit le formulaire avec les données
+        \item Bouton "Supprimer" : Suppression avec vérification des cours associés
+    \end{itemize}
+    \item Affichage du nombre de cours enseignés par professeur
+\end{itemize}
+
+\textbf{Opérations CRUD :}
+\begin{itemize}
+    \item \textbf{Create :} Ajout de nouveau professeur → POST /api/professeurs
+    \item \textbf{Read :} Liste de tous les professeurs → GET /api/professeurs
+    \item \textbf{Update :} Modification d'un professeur → PUT /api/professeurs/\{id\}
+    \item \textbf{Delete :} Suppression d'un professeur → DELETE /api/professeurs/\{id\}
+\end{itemize}
+
+\subsection{Fonctionnalités avancées}
+
+\begin{itemize}
+    \item \textbf{Validation des données :} Contrôle de tous les champs avant soumission
+    \item \textbf{Notifications :} Toast messages pour chaque action (succès/erreur)
+    \item \textbf{Actualisation automatique :} Rechargement de la liste après chaque opération
+    \item \textbf{Gestion des erreurs :} Messages explicites en cas d'échec d'opération
+    \item \textbf{Mode édition :} Pré-remplissage automatique du formulaire lors de la modification
+    \item \textbf{Confirmation de suppression :} Dialog de confirmation pour éviter les suppressions accidentelles
+    \item \textbf{Relations dynamiques :} Les professeurs sont chargés dynamiquement dans le dropdown des cours
+    \item \textbf{Vérification d'intégrité :} Impossible de supprimer un professeur ayant des cours assignés
+\end{itemize}
+
+\subsection{Sécurité}
+
+\begin{itemize}
+    \item Accès réservé aux utilisateurs avec rôle ADMIN uniquement
+    \item Vérification du token JWT à chaque requête
+    \item Redirection automatique vers login si session expirée
+    \item Protection contre les modifications non autorisées
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran du dashboard administrateur}}
+    \caption{Dashboard administrateur - Gestion des cours}
+    \label{fig:admin-dashboard}
+\end{figure}
+
+\newpage
+
+\section{Barre de Navigation (Navbar.jsx)}
+
+\textbf{Emplacement :} \texttt{frontend/src/components/Navbar.jsx}
+
+Composant de navigation présent sur toutes les pages de la plateforme.
+
+\subsection{Éléments de navigation}
+
+\begin{itemize}
+    \item \textbf{Logo LearnHub :} Lien vers la page d'accueil
+    \item \textbf{Menu principal :}
+    \begin{itemize}
+        \item Accueil → Page d'accueil
+        \item Cours → Liste des cours
+        \item Professeurs → Liste des professeurs
+    \end{itemize}
+    \item \textbf{Menu utilisateur (si connecté) :}
+    \begin{itemize}
+        \item Dashboard → Dashboard Étudiant ou Admin selon le rôle
+        \item Se déconnecter → Déconnexion et retour à l'accueil
+    \end{itemize}
+    \item \textbf{Menu authentification (si non connecté) :}
+    \begin{itemize}
+        \item Se connecter → Page de connexion
+        \item S'inscrire → Page d'inscription
+    \end{itemize}
+\end{itemize}
+
+\subsection{Fonctionnalités}
+
+\begin{itemize}
+    \item Navigation responsive avec menu hamburger sur mobile
+    \item Mise en surbrillance de la page active
+    \item Utilisation de AuthContext pour déterminer l'état de connexion
+    \item Affichage conditionnel basé sur le rôle utilisateur
+    \item Animations de transition entre les pages
+\end{itemize}
+
+\subsection{Design}
+
+\begin{itemize}
+    \item Barre fixe en haut de page (sticky)
+    \item Couleurs cohérentes avec la charte graphique
+    \item Icônes pour améliorer la lisibilité
+    \item Effet hover sur les liens
+    \item Compatible avec tous les navigateurs modernes
+\end{itemize}
+    \item Validation des données
+\end{itemize}
+
+\subsection{Fonctionnalités}
+\begin{itemize}
+    \item Toutes les opérations en temps réel
+    \item Actualisation automatique des listes
+    \item Messages de confirmation/erreur
+    \item Interface intuitive et ergonomique
+    \item Accès sécurisé (rôle ADMIN requis)
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran du dashboard admin}}
+    \caption{Dashboard administrateur}
+    \label{fig:admin-dashboard}
+\end{figure}
+
+\newpage
+
+\section{Lecteur Vidéo}
+
+Page dédiée à la lecture des vidéos de cours :
+\begin{itemize}
+    \item Player vidéo YouTube intégré
+    \item Affichage du titre du cours
+    \item Informations du professeur
+    \item Contrôles de lecture complets
+    \item Mode plein écran disponible
+    \item Accessible uniquement aux étudiants inscrits
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering \vspace{10cm} Capture d'écran du lecteur vidéo}}
+    \caption{Page lecteur vidéo}
+    \label{fig:video-player}
+\end{figure}
+
+% ========================================
+% CONCLUSION GÉNÉRALE
+% ========================================
+\chapter*{Conclusion Générale}
+\addcontentsline{toc}{chapter}{Conclusion Générale}
+
+Le développement de la plateforme LearnHub a été une expérience enrichissante qui a permis de concrétiser une solution moderne et fonctionnelle pour l'apprentissage en ligne. Ce projet illustre comment les technologies actuelles peuvent être orchestrées pour créer un système éducatif accessible et efficace.
+
+L'architecture microservices adoptée s'est révélée être un choix judicieux, offrant une séparation claire des responsabilités et une grande flexibilité. Chaque service (Discovery, Gateway, Cours, Inscription, Statistique) fonctionne de manière autonome tout en communiquant harmonieusement avec les autres composants. Cette modularité facilite la maintenance et l'évolution future du système.
+
+Du côté technique, ce projet a permis d'approfondir des compétences variées : de la conception d'API REST avec Spring Boot à la création d'interfaces utilisateur réactives avec React, en passant par la gestion de bases de données PostgreSQL et la sécurisation des accès. L'intégration de technologies comme Eureka pour la découverte de services et OpenFeign pour la communication inter-services démontre la richesse de l'écosystème Spring Cloud.
+
+L'interface utilisateur a été pensée pour offrir une expérience fluide et intuitive. Les étudiants peuvent facilement parcourir les cours, s'inscrire et accéder aux contenus vidéo, tandis que les administrateurs disposent d'outils complets pour gérer dynamiquement la plateforme.
+
+LearnHub constitue une base solide qui peut être enrichie de nombreuses fonctionnalités. L'ajout d'un système d'évaluation par quiz, la génération automatique de certificats, ou encore l'intégration d'un forum de discussion permettraient d'améliorer l'engagement des apprenants. Sur le plan technique, la conteneurisation et l'automatisation du déploiement représentent des étapes naturelles pour faciliter la mise en production.
+
+Ce projet démontre qu'il est possible de créer une plateforme d'apprentissage complète en utilisant des technologies open source et des architectures modernes. Au-delà des aspects techniques, ce travail illustre l'importance de l'éducation accessible à tous. Dans un monde digitalisé, les plateformes comme LearnHub jouent un rôle crucial en démocratisant l'accès au savoir.
+
+Les compétences acquises lors de ce projet constituent un socle solide pour aborder des défis plus complexes et participer activement à la transformation numérique du secteur éducatif.
+
+\vspace{2cm}
+
+
+\end{document}

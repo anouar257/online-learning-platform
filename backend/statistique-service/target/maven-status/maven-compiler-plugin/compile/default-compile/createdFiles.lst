@@ -1,0 +1,6 @@
+com\example\platform\statistique\model\YoutubeApiResponse.class
+com\example\platform\statistique\StatistiqueServiceApplication.class
+com\example\platform\statistique\model\StatistiqueResponse.class
+com\example\platform\statistique\model\YoutubeApiResponse$Item.class
+com\example\platform\statistique\model\YoutubeApiResponse$Statistics.class
+com\example\platform\statistique\controller\StatistiqueController.class

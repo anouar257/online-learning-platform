@@ -1,0 +1,9 @@
+com\example\platform\cours\config\RestDataConfig.class
+com\example\platform\cours\entities\Cours.class
+com\example\platform\cours\entities\Professeur.class
+com\example\platform\cours\CoursServiceApplication.class
+com\example\platform\cours\entities\Avis.class
+com\example\platform\cours\repository\AvisRepository.class
+com\example\platform\cours\repository\CoursRepository.class
+com\example\platform\cours\repository\ProfesseurRepository.class
+com\example\platform\cours\DataInitializer.class

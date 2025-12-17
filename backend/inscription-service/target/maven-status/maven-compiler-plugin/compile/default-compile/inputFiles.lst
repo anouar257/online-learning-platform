@@ -1,0 +1,13 @@
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\controller\InscriptionController.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\controller\AuthController.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\InscriptionServiceApplication.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\model\Cours.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\config\SecurityConfig.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\config\RestDataConfig.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\DataInitializer.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\repository\InscriptionRepository.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\security\JwtUtil.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\entities\Etudiant.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\repository\EtudiantRepository.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\feign\CoursRestClient.java
+C:\Users\anoua\Desktop\online-learning-platform\backend\inscription-service\src\main\java\com\example\platform\inscription\entities\Inscription.java

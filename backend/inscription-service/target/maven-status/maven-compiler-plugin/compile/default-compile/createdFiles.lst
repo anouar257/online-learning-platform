@@ -1,0 +1,13 @@
+com\example\platform\inscription\model\Cours.class
+com\example\platform\inscription\controller\InscriptionController.class
+com\example\platform\inscription\controller\AuthController.class
+com\example\platform\inscription\repository\InscriptionRepository.class
+com\example\platform\inscription\security\JwtUtil.class
+com\example\platform\inscription\entities\Inscription.class
+com\example\platform\inscription\repository\EtudiantRepository.class
+com\example\platform\inscription\config\RestDataConfig.class
+com\example\platform\inscription\config\SecurityConfig.class
+com\example\platform\inscription\DataInitializer.class
+com\example\platform\inscription\entities\Etudiant.class
+com\example\platform\inscription\InscriptionServiceApplication.class
+com\example\platform\inscription\feign\CoursRestClient.class

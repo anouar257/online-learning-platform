@@ -1,0 +1,104 @@
+.professors-page {
+    padding-top: 100px;
+    min-height: 100vh;
+    padding-bottom: var(--spacing-3xl);
+}
+
+.speciality-section {
+    margin-bottom: var(--spacing-3xl);
+}
+
+.speciality-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.speciality-icon {
+    background: var(--color-primary-light);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+}
+
+.professors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.professor-card {
+    background: var(--gradient-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.professor-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-primary);
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+}
+
+.professor-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+}
+
+.professor-avatar-large {
+    width: 100px;
+    height: 100px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    margin: 0 auto var(--spacing-lg);
+    box-shadow: var(--shadow-glow);
+}
+
+.professor-info {
+    width: 100%;
+}
+
+.professor-info h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.professor-info .badge {
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
+    white-space: nowrap;
+}
+
+.professor-email {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    word-break: break-all;
+}
+
+@media (max-width: 768px) {
+    .professors-page {
+        padding-top: 80px;
+    }
+
+    .professors-grid {
+        grid-template-columns: 1fr;
+    }
+}
