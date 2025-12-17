@@ -29,16 +29,6 @@ const Professors = () => {
         prof.specialite?.toLowerCase().includes(search.toLowerCase())
     );
 
-    // Group by speciality
-    const groupedBySpeciality = filteredProfessors.reduce((acc, prof) => {
-        const specialite = prof.specialite || 'Autre';
-        if (!acc[specialite]) {
-            acc[specialite] = [];
-        }
-        acc[specialite].push(prof);
-        return acc;
-    }, {});
-
     if (loading) {
         return (
             <div className="professors-page">
@@ -69,34 +59,34 @@ const Professors = () => {
                     />
                 </div>
 
-                {/* Professors by Speciality */}
-                {Object.keys(groupedBySpeciality).length > 0 ? (
-                    Object.entries(groupedBySpeciality).map(([specialite, profs]) => (
-                        <div key={specialite} className="speciality-section animate-fadeIn">
-                            <h2 className="speciality-title">
-                                <span className="speciality-icon">📚</span>
-                                {specialite}
-                            </h2>
-                            <div className="professors-grid">
-                                {profs.map(prof => (
-                                    <div key={prof.id} className="professor-card">
-                                        <div className="professor-card-content">
-                                            <div className="professor-avatar-large">
-                                                {prof.prenom?.[0]}{prof.nom?.[0]}
-                                            </div>
-                                            <div className="professor-info">
-                                                <h3>{prof.prenom} {prof.nom}</h3>
-                                                <span className="badge">{prof.specialite}</span>
-                                                <p className="professor-email">
-                                                    ✉️ {prof.email}
-                                                </p>
-                                            </div>
-                                        </div>
+                {/* Professors Grid */}
+                {filteredProfessors.length > 0 ? (
+                    <div className="professors-grid animate-fadeIn">
+                        {filteredProfessors.map(prof => (
+                            <div key={prof.id} className="professor-card">
+                                <div className="professor-header">
+                                    <div className="professor-avatar">
+                                        {prof.prenom?.[0]}{prof.nom?.[0]}
                                     </div>
-                                ))}
+                                </div>
+                                <div className="professor-body">
+                                    <h3 className="professor-name">{prof.prenom} {prof.nom}</h3>
+                                    <div className="professor-specialty">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M8 2L10.5 7L16 8L12 12L13 17.5L8 14.5L3 17.5L4 12L0 8L5.5 7L8 2Z" fill="currentColor"/>
+                                        </svg>
+                                        <span>{prof.specialite}</span>
+                                    </div>
+                                    <div className="professor-email">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M2 4L8 8L14 4M2 4V12H14V4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        <a href={`mailto:${prof.email}`}>{prof.email}</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        ))}
+                    </div>
                 ) : (
                     <div className="empty-state">
                         <div className="empty-state-icon">👨‍🏫</div>
