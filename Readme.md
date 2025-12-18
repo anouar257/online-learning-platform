@@ -4,23 +4,6 @@ Plateforme moderne de gestion de cours en ligne avec architecture microservices,
 
 ---
 
-## 📸 Captures d'Écran
-
-![](screenshots/Screenshot%202025-12-17%20235901.png)
-![](screenshots/Screenshot%202025-12-17%20235940.png)
-![](screenshots/Screenshot%202025-12-18%20000002.png)
-![](screenshots/Screenshot%202025-12-18%20000020.png)
-![](screenshots/Screenshot%202025-12-18%20000123.png)
-![](screenshots/Screenshot%202025-12-18%20000146.png)
-![](screenshots/Screenshot%202025-12-18%20000219.png)
-![](screenshots/Screenshot%202025-12-18%20000251.png)
-![](screenshots/Screenshot%202025-12-18%20000407.png)
-![](screenshots/Screenshot%202025-12-18%20000452.png)
-![](screenshots/Screenshot%202025-12-18%20000513.png)
-![](screenshots/Screenshot%202025-12-18%20001817.png)
-
----
-
 ## 📦 Technologies utilisées
 
 | Technologie | Version | Rôle |
@@ -269,6 +252,23 @@ Get-Process | Where-Object {$_.ProcessName -eq 'java' -or $_.ProcessName -eq 'no
 
 ---
 
-## 👨‍💻 Auteur
+## � Captures d'Écran
+
+![](screenshots/Screenshot%202025-12-17%20235901.png)
+![](screenshots/Screenshot%202025-12-17%20235940.png)
+![](screenshots/Screenshot%202025-12-18%20000002.png)
+![](screenshots/Screenshot%202025-12-18%20000020.png)
+![](screenshots/Screenshot%202025-12-18%20000123.png)
+![](screenshots/Screenshot%202025-12-18%20000146.png)
+![](screenshots/Screenshot%202025-12-18%20000219.png)
+![](screenshots/Screenshot%202025-12-18%20000251.png)
+![](screenshots/Screenshot%202025-12-18%20000407.png)
+![](screenshots/Screenshot%202025-12-18%20000452.png)
+![](screenshots/Screenshot%202025-12-18%20000513.png)
+![](screenshots/Screenshot%202025-12-18%20001817.png)
+
+---
+
+## �👨‍💻 Auteur
 
 **Anouar Mountade** - anouarmountade@gmail.com
